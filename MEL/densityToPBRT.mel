@@ -1,0 +1,22 @@
+int $nx = `getAttr "fluidShape2.resolutionW"`;
+int $ny = `getAttr "fluidShape2.resolutionH"`;
+int $nz = `getAttr "fluidShape2.resolutionD"`;
+
+string $filePath = "/Users/cassidysaenz/Documents/Stanford/Senior/Spring/CS-348B/Final\ Project/density\ tests/dyeDensityNew6.pbrt" ;  
+ 
+int $fileId = `fopen $filePath "a"`;
+
+fprint $fileId ("Volume \"volumegrid\" \"integer nx\""+ $nx + "\"integer ny\"" + $ny + "\"integer nz\"" + $nz + "\"point p0\" [ 0.0 -1 0.0 ] \"point p1\" [ 2.0 1 2 ] \"float density\" [");
+
+for ($x = 0; $x < $nx; $x++) {
+    for ($y = 0; $y < $ny; $y++) {
+        for ($z = 0; $z < $nz; $z++) {
+            float $density[] = `getFluidAttr -at "density" -xi $x -yi $y -zi $z`;
+            fprint $fileId ($density[0] + " ");
+        }
+    }
+}
+
+fprint $fileId ("]");
+
+fclose $fileId;
